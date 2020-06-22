@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  hub:
+    image: selenium/hub:4.0.0
+    container_name: hub
+    restart: always
+    ports:
+      - 4444:4444
+
+  chrome:
+    image: selenium/node-chrome:4.0.0
+    container_name: node-chrome
+    restart: always
+    volumes:
+      - chrome_data:/dev/shm
+    depends_on:
+      - hub
+    environment:
+      - HUB_HOST=hub
+      - HUB_PORT=4444
+
+volumes:
+  chrome_data:
+    driver: local
